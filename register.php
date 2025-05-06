@@ -1,5 +1,46 @@
-<?php include("./includes/header.php"); ?>
+<?php 
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+    include("./includes/header.php"); 
+    include_once 'auth.php';
+    include_once 'validateInput.php';
+    include_once 'dbUtil.php';
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $fullName = htmlspecialchars($_POST['fullName']);
+        $email = htmlspecialchars($_POST['email']);
+        $password = htmlspecialchars($_POST['password']);
+        $confirmPassword = htmlspecialchars($_POST['confirmPassword']);
+        $phone = htmlspecialchars($_POST['phone']);
+
+        $ValidationErrors = validateRegistrationInput($fullName, $email, $password, $confirmPassword, $phone);
+
+        if(empty($ValidationErrors)) {
+            $hashedPassword = hashPassword($password);
+            $userId = saveUserToDatabase($fullName, $hashedPassword, $email, $phone);
+
+            echo "<script>alert('Registration successful!');</script>";
+
+            if ($userId) {
+                echo "<script>alert('Registration successful! Redirecting to dashboard...');</script>";
+                // Use header to redirect the user
+                header("Location: home.php"); 
+                exit; 
+            }
+            
+        } else {
+            echo "<script>alert('Validation failed. Please check your input.');</script>";
+        }
+
+    }
+?>
+
+
+
+<!-- frontend -->
 <body class="bg-gray-900 min-h-screen">
     <div class="flex justify-center items-center min-h-screen p-4">
         <div class="bg-gray-800 rounded-lg shadow-xl w-full max-w-md p-8">
@@ -10,7 +51,7 @@
             </div>
             
             <!-- Registration Form -->
-            <form id="registrationForm" action="#" method="POST" class="space-y-6">
+            <form id="registrationForm" action="register.php" method="POST" class="space-y-6">
                 <!-- Full Name -->
                 <div>
                     <label for="fullName" class="block text-sm font-medium text-gray-300">Full Name</label>
@@ -102,7 +143,7 @@
                 <!-- Already have account -->
                 <div class="text-center mt-4">
                     <p class="text-sm text-gray-300">
-                        Already have an account? <a href="log.php" class="text-blue-400 hover:underline">Log in</a>
+                        Already have an account? <a href="login.php" class="text-blue-400 hover:underline">Log in</a>
                     </p>
                 </div>
             </form>
@@ -174,7 +215,6 @@
         
         // Form validation
         document.getElementById('registrationForm').addEventListener('submit', function(e) {
-            e.preventDefault();
             
             // Validate form fields
             const fullName = document.getElementById('fullName').value.trim();
@@ -184,26 +224,12 @@
             const phone = document.getElementById('phone').value.trim();
             const terms = document.getElementById('terms').checked;
             
-            // Simple validation
+            // client side validation
             if (!fullName || !email || !password || !confirmPassword || !phone || !terms) {
                 alert('Please fill in all required fields');
+                e.preventDefault();
                 return;
             }
-            
-            if (password !== confirmPassword) {
-                alert('Passwords do not match');
-                return;
-            }
-            
-            // Email validation
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert('Please enter a valid email address');
-                return;
-            }
-            
-            // If all validations pass
-            alert('Registration form submitted successfully!');
-            // In a real application, you would submit the form to the server here
+            this.submit(); 
         });
     </script>

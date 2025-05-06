@@ -187,7 +187,7 @@
             <span class="text-2xl logo">FIT</span>
         </div>
         <div>
-    <a href="log.php">
+    <a href="login.php">
         <button class="login-btn px-6 py-2 rounded-full text-white font-medium">Login</button>
     </a>
 </div>

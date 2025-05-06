@@ -71,7 +71,7 @@
                 <!-- Don't have account -->
                 <div class="text-center mt-4">
                     <p class="text-sm text-gray-300">
-                        Don't have an account yet? <a href="reg.php" class="text-blue-400 hover:underline">Register</a>
+                        Don't have an account yet? <a href="register.php" class="text-blue-400 hover:underline">Register</a>
                     </p>
                 </div>
                 
