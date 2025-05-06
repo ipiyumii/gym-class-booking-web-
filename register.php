@@ -8,6 +8,7 @@ error_reporting(E_ALL);
     include_once 'auth.php';
     include_once 'validateInput.php';
     include_once 'dbUtil.php';
+    include_once 'session.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $fullName = htmlspecialchars($_POST['fullName']);
