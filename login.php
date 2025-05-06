@@ -1,29 +1,5 @@
 <?php 
-    include("./includes/header.php"); 
-    include_once 'auth.php';
-
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $email = htmlspecialchars($_POST['email']);
-        $password = htmlspecialchars($_POST['password']);
-
-        if (empty($password)) {
-            $error = "Password is required.";
-        } else {
-            $user = getUserData($email);
-    
-            if ($user && verifyPassword($password, $user['password'])) {
-                // set user session 
-                setSession('user_id', $user['id']);
-                setSession('user_email',  $user['email']);
-    
-                header('Location: dashboard.php');
-                exit();
-            }  else {
-                    $error = "Invalid username or password.";
-                }
-        }
-    }
+    //2
 
 ?>
 <body class="bg-gray-900 min-h-screen">
