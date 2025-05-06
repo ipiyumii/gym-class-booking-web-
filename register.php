@@ -25,7 +25,20 @@ error_reporting(E_ALL);
 
             echo "<script>alert('Registration successful!');</script>";
 
-            //1
+            if ($user) {
+                echo "<script>alert('Registration successful! Redirecting to dashboard...');</script>";
+
+                $userData = getUserData($email);
+
+                //set user session
+                setSession('user_id', $userData['id']);
+                setSession('email', $userData['email']);
+
+                //redirect the user
+                header("Location: home.php"); 
+                exit; 
+            }
+
 
           
             
