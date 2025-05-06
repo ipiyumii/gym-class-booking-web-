@@ -9,7 +9,6 @@
     }
 
     $email = getSession('email');
-    echo "Welcome! Logged in as: " . htmlspecialchars($email);
 ?>
 
     <style>
