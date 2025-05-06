@@ -1,4 +1,14 @@
-<?php include("./includes/header.php"); ?>
+<?php 
+    include("./includes/header.php"); 
+    include_once 'session.php';
+
+    $userId = getSession('user_id');
+    if (!$userId) {
+        header("Location: login.php");
+        exit;
+    }
+?>
+
     <style>
         .bg-gym {
             background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1600/900');

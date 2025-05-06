@@ -26,6 +26,11 @@ error_reporting(E_ALL);
 
             if ($userId) {
                 echo "<script>alert('Registration successful! Redirecting to dashboard...');</script>";
+
+                //set user session
+                setSession('user_id', $userId);
+                setSession('user_email', $email);
+
                 // Use header to redirect the user
                 header("Location: home.php"); 
                 exit; 
