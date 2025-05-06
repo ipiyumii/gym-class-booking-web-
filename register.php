@@ -1,5 +1,5 @@
 <?php 
-
+//remove this lines
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -21,18 +21,20 @@ error_reporting(E_ALL);
 
         if(empty($ValidationErrors)) {
             $hashedPassword = hashPassword($password);
-            $userId = saveUserToDatabase($fullName, $hashedPassword, $email, $phone);
+            $user = saveUserToDatabase($fullName, $hashedPassword, $email, $phone);
 
             echo "<script>alert('Registration successful!');</script>";
 
-            if ($userId) {
+            if ($user) {
                 echo "<script>alert('Registration successful! Redirecting to dashboard...');</script>";
 
-                //set user session
-                setSession('user_id', $userId);
-                setSession('user_email', $email);
+                $userData = getUserData($email);
 
-                // Use header to redirect the user
+                //set user session
+                setSession('user_id', $userData['id']);
+                setSession('email', $userData['email']);
+
+                //redirect the user
                 header("Location: home.php"); 
                 exit; 
             }
@@ -40,7 +42,6 @@ error_reporting(E_ALL);
         } else {
             echo "<script>alert('Validation failed. Please check your input.');</script>";
         }
-
     }
 ?>
 
